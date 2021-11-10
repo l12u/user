@@ -1,0 +1,22 @@
+version: "3.1"
+
+services:
+  postgres:
+    image: postgres:14.0-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: userm
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+  gamemaster:
+    image: l12u/userm:0.1.0
+    build: .
+    environment:
+      POSTGRES_ADDRESS: postgres:5432
+      POSTGRES_DB: userm
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+    ports:
+      - 8090:8090
+    restart: always
