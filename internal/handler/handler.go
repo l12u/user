@@ -53,6 +53,10 @@ func Login(c *gin.Context) {
 	})
 
 	tokenStr, err := token.SignedString(RsaPrivateKey)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
 	c.JSON(200, gin.H{"token": tokenStr})
 }
 
