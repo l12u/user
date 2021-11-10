@@ -10,6 +10,7 @@ import (
 	"github.com/golang-jwt/jwt"
 	"github.com/l12u/userm/internal/errcode"
 	"github.com/l12u/userm/internal/model"
+	"github.com/l12u/userm/pkg/env"
 	"net/http"
 	"os"
 	"time"
@@ -43,10 +44,11 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	issuer := env.StringOrDefault("JWT_ISSUER", "testing@l12u.party")
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
 		"user": data.Username,
-		"iss":  "testing@l12u.party",
-		"sub":  "testing@l12u.party",
+		"iss":  issuer,
+		"sub":  issuer,
 		"exp":  time.Now().Add(3 * 24 * time.Hour).Unix(),
 	})
 
