@@ -22,9 +22,9 @@ func main() {
 	r.Use(middleware.Logger(3 * time.Second))
 	r.Use(gin.Recovery())
 
-	handler.Setup()
+	reqHandler := handler.NewRequestHandler()
 
-	r.POST("/login", handler.Login)
+	r.POST("/login", reqHandler.Login)
 
 	r.GET("/healthz", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "UP"})
